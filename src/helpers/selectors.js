@@ -1,7 +1,7 @@
 import React, { useState  } from "react";
 
 
-export function getAppointmentsForDay(state, day) {
+export default function getAppointmentsForDay(state, day) {
   const filteredDays = state.days.filter(filterDay => filterDay.name === day);
   if (!filteredDays[0]) {
     return [];
