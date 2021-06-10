@@ -15,7 +15,7 @@ export function getAppointmentsForDay(state, day) {
 
 
 export function getInterview(state, interview) {
-  if (!state.interviewers) {
+  if (!state) {
     return null;
   }
   if (!interview) {
