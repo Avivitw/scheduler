@@ -4,47 +4,9 @@ import axios from 'axios';
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import {getAppointmentsForDay} from "helpers/selectors";
-
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 3,
-//     time: "12pm",
-//   },
-//   {
-//     id: 5,
-//     time: "11pm",
-//     interview: {
-//       student: "Vivi Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   }
-// ];
-
+import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "helpers/selectors";
 
 export default function Application(props) {
-
-
   
   const [day, setDay] = useState("Monday");
   const [state, setState] = useState({
@@ -52,8 +14,9 @@ export default function Application(props) {
     appointments: {},
     interviewers: {}
   });
-  
+
   const dailyAppointments = getAppointmentsForDay(state, day);
+  const dailyInterviewers = getInterviewersForDay(state, day);
 
   // const setDay = day => setState({ ...state, day });
   // const setDays = days => setState(prev => ({ ...prev, days }));
@@ -72,10 +35,21 @@ export default function Application(props) {
 
 
   const appointmentsSchedule = dailyAppointments.map((appointment) =>{
-     return (<Appointment
-        key={appointment.id}
-        {...appointment}/>
-      )});
+    const interview = getInterview(state, appointment.interview);
+
+     return (
+        <Appointment
+          key={appointment.id}
+          id={appointment.id}
+          time={appointment.time}
+          interview={interview}
+          interviewers={dailyInterviewers}
+        />
+  
+    );
+  });
+
+
 
   return (
     <main className="layout">
