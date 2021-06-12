@@ -33,8 +33,7 @@ export default function Application(props) {
 
   }, []);
 
-  function bookInterview(id, interview) {
-    console.log(id, interview);
+  const bookInterview = function(id, interview)  {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -48,9 +47,23 @@ export default function Application(props) {
       .then(response => {setState( {...state,
         appointments})});
      
-
- 
   };
+
+  const cancelInterview = function(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.delete(`/api/appointments/${id}`)
+      .then(response => {setState( {...state,
+        appointments})})
+
+  }
 
 
 
@@ -65,6 +78,7 @@ export default function Application(props) {
           interview={interview}
           interviewers={dailyInterviewers}
           bookInterview={bookInterview}
+          cancelInterview={cancelInterview}
         />
   
     );
@@ -85,7 +99,7 @@ export default function Application(props) {
         <nav className="sidebar__menu">
           <DayList
             days={state.days}
-            value={state.day}
+            value={day}
             onChange={setDay}
           />
         </nav>

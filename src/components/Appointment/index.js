@@ -1,15 +1,21 @@
 import React from "react";
 import "components/Appointment/styles.scss";
-import Header from "components/Appointment/Header.js";
-import Empty from "components/Appointment/Empty.js";
-import Show from "components/Appointment/Show.js";
-import Form from "components/Appointment/Form.js";
+import Header from "components/Appointment/Header";
+import Empty from "components/Appointment/Empty";
+import Show from "components/Appointment/Show";
+import Form from "components/Appointment/Form";
+import Status from "components/Appointment/Status";
 import {useVisualMode} from "hooks/useVisualMode";
+import Confirm from "./Confirm";
 
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const SAVING= "SAVING";
+const DELETING= "DELETING";
+const CONFIRM= "CONFIRM";
+
 
 export default function Appointment(props) {
 
@@ -20,11 +26,20 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
+    transition(SAVING);
     props.bookInterview(props.id, interview)
-    .then(() => transition("SHOW"));
+    .then(() => transition(SHOW));
     
     console.log(`interview`, interview);
   };
+
+  function deleteAppointment() {
+    transition(DELETING);
+    props.cancelInterview(props.id)
+    .then(() => transition(EMPTY));
+    
+
+  }
 
 
   return (
@@ -35,6 +50,7 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onDelete={() => transition(CONFIRM)}
         />
       )}
       {mode === CREATE && (
@@ -42,6 +58,23 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
+        />
+      )}
+      {mode === SAVING && (
+        <Status
+          message={`Saving`}
+         />
+      )}
+      {mode === DELETING && (
+        <Status 
+          message={`Deleting`}
+        />
+      )}
+      {mode === CONFIRM &&(
+        <Confirm
+        message={`Are you sure you want to delete?`}
+        onCancel={back}
+        onConfirm={deleteAppointment}
         />
       )}
     </article>
