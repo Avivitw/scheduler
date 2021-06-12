@@ -7,6 +7,7 @@ import Form from "components/Appointment/Form";
 import Status from "components/Appointment/Status";
 import {useVisualMode} from "hooks/useVisualMode";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 
 const EMPTY = "EMPTY";
@@ -15,7 +16,9 @@ const CREATE = "CREATE";
 const SAVING= "SAVING";
 const DELETING= "DELETING";
 const CONFIRM= "CONFIRM";
-
+const EDIT= "EDIT";
+const ERROR_SAVE= "ERROR_SAVE";
+const ERROR_DELETE= "ERROR_DELETE";
 
 export default function Appointment(props) {
 
@@ -28,17 +31,22 @@ export default function Appointment(props) {
     };
     transition(SAVING);
     props.bookInterview(props.id, interview)
-    .then(() => transition(SHOW));
+    .then(() => transition(SHOW))
+    .catch(error => {
+      transition(ERROR_SAVE, true);
+    });
     
     console.log(`interview`, interview);
   };
 
   function deleteAppointment() {
-    transition(DELETING);
+    transition(DELETING, true);
     props.cancelInterview(props.id)
-    .then(() => transition(EMPTY));
-    
-
+    .then(() => transition(EMPTY))
+    .catch(error => {
+      transition(ERROR_DELETE, true);
+    });
+  
   }
 
 
@@ -51,10 +59,26 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onDelete={() => transition(CONFIRM)}
+          onEdit={() => transition(EDIT)}
         />
       )}
       {mode === CREATE && (
         <Form
+          interviewers={props.interviewers}
+          onCancel={back}
+          onSave={save}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error
+          onClose={back}
+          message={`Error occurred when trying to save...`}
+        />
+      )}
+      {mode === EDIT && (
+        <Form
+          name={props.interview.student}
+          interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
@@ -68,6 +92,12 @@ export default function Appointment(props) {
       {mode === DELETING && (
         <Status 
           message={`Deleting`}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error
+          onClose={back}
+          message={`Error occurred when trying to delete...`}
         />
       )}
       {mode === CONFIRM &&(
