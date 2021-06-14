@@ -16,7 +16,7 @@ export function useApplicationData(initial) {
   }
 
 
-  function getSpotsForDay(appointments){
+  const getSpotsForDay = function(appointments){
     const filteredDays = state.days.filter(filterDay => filterDay.name === state.day);
     return filteredDays[0].appointments.map(appointmentId =>  appointments[appointmentId]).filter(appointment => !appointment.interview).length;
   };
