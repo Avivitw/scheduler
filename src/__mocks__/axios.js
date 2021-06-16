@@ -59,11 +59,17 @@ const fixtures = {
 export default {
   get: jest.fn(url => {
     if (url === "/api/days") {
-      return Promise.resolve({
-        status: 200,
-        statusText: "OK",
-        data: fixtures.days
+      return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+          resolve({
+            status: 200,
+            statusText: "OK",
+            data: fixtures.days
+          });
+        },200)
+
       });
+      
     }
 
     if (url === "/api/appointments") {
@@ -88,5 +94,13 @@ export default {
       status: 204,
       statusText: "No Content" 
     });
+  }),
+
+  delete:jest.fn(url => {
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content" 
+    });
   })
+
 }
