@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent, prettyDOM, getByText, getAllByTestId, act, getByAltText, getByPlaceholderText } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText, getAllByTestId, act, getByAltText, getByPlaceholderText, queryByText } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -34,8 +34,14 @@ describe("Application", () => {
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
     fireEvent.click(getByText(appointment, "Save"));
+    
+    expect(getByText(appointment, "Saving")).toBeInTheDocument(); 
 
-    console.log(prettyDOM(appointment));
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
+    
+    const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday"));
+
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
 
   });
 
