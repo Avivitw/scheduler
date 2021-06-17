@@ -6,9 +6,9 @@ This project is my solution to this exercise and published by me as part of my l
 
 ## Screenshots
 
-!["Full list"](https://github.com/Avivitw/scheduler/blob/master/docs/edit_delete.png?raw=true)
+!["Full list"](https://github.com/Avivitw/scheduler/blob/master/docs/full_list.png?raw=true)
 
-!["Edit and Delete"](https://github.com/Avivitw/scheduler/blob/master/docs/full_list.png?raw=true)
+!["Edit and Delete"](https://github.com/Avivitw/scheduler/blob/master/docs/edit_delete.png?raw=true)
 
 ## Getting Started
 
