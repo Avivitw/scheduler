@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 
-
 export default function Form(props) {
 
   const [name, setName] = useState(props.name || "");
@@ -28,7 +27,7 @@ export default function Form(props) {
   
     setError("");
     props.onSave(name, interviewer);
-  }
+  };
 
   const save = () => {
     validate();
@@ -62,4 +61,4 @@ export default function Form(props) {
       </section>
     </main>
 
-  )}
+  )};

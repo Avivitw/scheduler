@@ -38,8 +38,8 @@ export function useApplicationData(initial) {
       }
       return day;
     })
-    setState(prev => { return {...prev, appointments, days}})
-  }
+    setState(prev => { return {...prev, appointments, days}});
+  };
 
   const bookInterview = function(id, interview)  {
    
@@ -55,7 +55,7 @@ export function useApplicationData(initial) {
       .then(response => {
         updateAppointmentsAndDays(id);
       });
-  }
+  };
 
 
   useEffect(() =>{
@@ -74,7 +74,6 @@ return {
   setDay,
   bookInterview,
   cancelInterview
-}
-
+  }
 
 };

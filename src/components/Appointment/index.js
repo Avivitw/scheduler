@@ -47,7 +47,7 @@ export default function Appointment(props) {
       transition(ERROR_DELETE, true);
     });
   
-  }
+  };
 
 
   return (
@@ -108,4 +108,4 @@ export default function Appointment(props) {
         />
       )}
     </article>
-  )}
+  )};
